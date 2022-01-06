@@ -1,0 +1,77 @@
+<p-toast></p-toast>
+<p-table [value]="products">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                ID
+                <p-columnFilter type="text" field="id" display="menu"></p-columnFilter>
+            </div>
+        </th>
+        <th>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                PLAKA
+                <p-columnFilter type="text" field="plaka" display="menu"></p-columnFilter>
+            </div>
+        </th>
+        <th>
+            <div class="p-d-flex p-jc-between p-ai-center">
+KAMERA ID                <p-columnFilter type="text" field="kameraid" display="menu"></p-columnFilter>
+            </div>
+        </th>
+        <th>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                LOKASYON
+                <p-columnFilter type="text" field="location" display="menu"></p-columnFilter>
+            </div>
+        </th>
+        <th>
+            <div class="p-d-flex p-jc-between p-ai-center">
+                TARİH
+                <p-columnFilter type="date" dateFormat="dd/MM/yyyy HH:mm:ss.SSS" field="tarih" display="menu">
+                    
+               </p-columnFilter>            
+            </div>
+        </th>
+            <th>SİL</th>
+            <th>HARİTADA GÖSTER</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>{{product.id}}</td>
+            <td>{{product.plaka}}</td>
+            <td>{{product.kameraid}}</td>
+            <td>{{product.location}}</td>
+            <td>{{product.tarih|date:'dd/MM/yyyy HH:mm:ss.SSS'}}</td>
+
+            <td><p-button icon="pi pi-trash" (click)="deleteProduct(product)"></p-button></td>
+            <td style="position:center;"><p-button icon="pi pi-chevron-right" (click)="openDialogForm(product)"></p-button></td>
+
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-confirmDialog [style]="{width: '50vw'}" [position]="'topright'"
+[baseZIndex]="10000"></p-confirmDialog>
+<p-dialog [(visible)]="openDialog" [style]="{width: '75%',height:'600px'}" header="{{product.plaka}} Plakasının Lokasyon Detayı"  [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+            <input type="datetime-local" [(ngModel)]="date7" [style]="{width: '30%',height:'8%'}" style="margin-right: 25px;margin-bottom: 10px;" pInputText />
+            -
+            <input type="datetime-local" [(ngModel)]="date8" [style]="{width: '30%',height:'8%'}" style="margin-left: 25px;margin-bottom: 10px;"  pInputText />
+
+            <button type="button" pButton label="GÖRÜNTÜLE" icon="pi pi-eye" (click)="show()" [style]="{width: '20%',height:'8%'}" style="margin-left: 25px;margin-bottom: 10px;"></button>
+
+
+        <p-gmap #gmap [options]="options" [overlays]="overlays" (onOverlayClick)="handleOverlayClick($event)" (onOverlayDragEnd)="handleDragEnd($event)" [style]="{'width':'100%','height':'400px'}"   ></p-gmap>   
+        <button type="button" pButton label="Clear" icon="pi pi-times" (click)="clear()" [style]="{width: '20%',height:'10%'}" style="margin-right: 25px;margin-top: 10px;"></button>
+        <button type="button" pButton label="Zoom In" icon="pi pi-plus" (click)="zoomIn(gmap.getMap())" [style]="{width: '20%',height:'10%'}" style="margin-right: 25px; "></button> 
+        <button type="button" pButton label="Zoom Out" icon="pi pi-minus" (click)="zoomOut(gmap.getMap())" [style]="{width: '20%',height:'10%'}"></button>
+        
+
+    </ng-template>
+    
+    
+</p-dialog>
+
